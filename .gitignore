@@ -1,0 +1,6 @@
+# .gitignore
+node_modules/
+**/node_modules/
+ultimate-react-course-main/
+theory-slides.pdf
+ultimate-react-course-main.zip
