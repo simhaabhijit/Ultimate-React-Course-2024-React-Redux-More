@@ -143,8 +143,39 @@ function getBook(id) {
   return data.find((d) => d.id === id);
 }
 
-// Destructuring
 
 const book = getBook(2);
 
-console.log(books);
+console.log(book);
+// Destructuring Obj
+const { title, author, pages, publicationDate, genres, hasMovieAdaptation } = book;
+
+console.log(author, title, genres);
+
+// const primaryGenre = genres[0];
+// const secondaryyGenre = genres[1];
+
+//  Destructuring Arr & rest operator
+const [primaryGenre, secondaryGenre, ...otherGenre] = genres;
+
+console.log(primaryGenre, secondaryGenre, otherGenre);
+// spread operator Arr
+const newGenres = [...genres, 'epic fantasy'];
+const newGenres1 = ['epic fantasy', ...genres];
+console.log(newGenres, newGenres1);
+// spread operator Obj
+const updatedBook = {
+  ...book,
+  // updating exiting property
+  pages: 1256,
+  // adding a new property
+  moviePublicationDate: "2001-05-07"
+};
+console.log(updatedBook);
+
+// Template Literals
+
+const summary = `${title}, a ${pages}-page long book,  was written by ${author} and published in ${publicationDate} and
+ has ${hasMovieAdaptation ? '' : 'no'} movie adaption `;
+console.log(summary);
+
