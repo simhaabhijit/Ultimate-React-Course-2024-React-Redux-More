@@ -177,5 +177,5 @@ console.log(updatedBook);
 
 const summary = `${title}, a ${pages}-page long book,  was written by ${author} and published in ${publicationDate} and
  has ${hasMovieAdaptation ? '' : 'no'} movie adaption `;
-console.log(summary);
 
+console.log(summary);
