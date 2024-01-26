@@ -173,9 +173,132 @@ const updatedBook = {
 };
 console.log(updatedBook);
 
-// Template Literals
+/*
+Template Literals
+Ternary Operators
+Arrow Functions
+*/
 
-const summary = `${title}, a ${pages}-page long book,  was written by ${author} and published in ${publicationDate} and
- has ${hasMovieAdaptation ? '' : 'no'} movie adaption `;
+const getYear = (str) => str.split('-')[0];
+
+const summary = `${title}, a ${pages}-page long book, was written by ${author} and published in ${getYear(publicationDate)} and
+ has ${hasMovieAdaptation ? '' : 'no '}movie adaption `;
+
+// function getYear(publicationDate) {
+//   return publicationDate.split('-')[0];
+// }
+// move before the func call as func expr var getYear wont be intialized - only var is declared & hoisted, but not intialized  
+// const getYear = (str) => str.split('-')[0]; 
 
 console.log(summary);
+
+// short circuiting with logical operators
+console.log(true && "something");
+console.log(false && "something");
+console.log(hasMovieAdaptation && "This book has a movie");
+
+// falsy 0,'', null, undefined
+
+console.log(true || "something");
+console.log(false || "something");
+console.log(book.translations.polish || 'Not Translated');
+// data is present & its value is 0, here || will give falsy value for such cases use nullish coalescing operator
+console.log(book.reviews.librarything.reviewsCount);
+
+console.log(book.reviews.librarything.reviewsCount || 'no data'); // wrong output as 0 is the value & result is no data
+console.log(book.reviews.librarything.reviewsCount ?? 'no data'); // correct output as 0 is the value & result is 0
+// truthy  1,'s', {}, []
+
+// Optional Chaining
+function getBookTotalReviewCount(id) {
+
+  const book = getBook(id);
+  // const goodreads = book.reviews.goodreads.reviewsCount; 
+  // optional chaining if value is undefined
+  const goodreads = book.reviews.goodreads?.reviewsCount || 0;
+  const librarything = book.reviews.librarything?.reviewsCount || 0;
+
+  return goodreads + librarything;
+}
+
+console.log(getBookTotalReviewCount(1));
+console.log(getBookTotalReviewCount(3));
+
+// Array methods
+// map
+const books = getBooks();
+
+const doubleArr = [1, 2, 3, 4, 5].map((el) => el * 2);
+console.log(doubleArr);
+
+const titles = books.map(book => book.title);
+console.log(titles);
+
+// const essentialData = books.map((book) => { return { title: book.title, author: book.author } });
+const essentialData = books.map((book) => ({ title: book.title, author: book.author, reviewsCount: getBookTotalReviewCount(book.id) }));
+console.log(essentialData);
+
+// filter
+const longBooks = books.filter(book => book.pages > 500).filter(book => book.hasMovieAdaptation);
+console.log(longBooks);
+
+const adventureBooks = books.filter(book => book.genres.includes('adventure')).map(book => book.title);
+console.log(adventureBooks);
+
+// reduce
+const pagesAllBooks = books.reduce((acc, book) => acc + book.pages, 0);
+console.log(pagesAllBooks);
+
+// sort
+const sortArr = [1, 6, 35, 8, 5];
+// ascending
+sortArr.sort((a, b) => a - b);
+console.log(sortArr);
+// descending
+sortArr.sort((a, b) => b - a)
+console.log(sortArr);
+// to not modify the original array
+const sortedArr = sortArr.slice().sort((a, b) => a - b);
+console.log(sortArr, sortedArr);
+
+const sortedByPages = books.slice().sort((a, b) => a.pages - b.pages);
+console.log(sortedByPages);
+
+// Working with Immutable Arrays
+
+// add obj to books arr
+const newBook = {
+  id: 6,
+  title: "Harry Potter and the Chamber of Secrets",
+  author: "J.K. Rowling"
+};
+
+const booksAfterAdd = [...books, newBook];
+console.log(booksAfterAdd);
+
+// delete obj to books arr
+const booksAfterDelete = booksAfterAdd.filter(book => book.id !== 3);
+console.log(booksAfterDelete);
+
+// update book obj in books arr
+const booksAfterUpdate = booksAfterDelete.map(book => book.id === 1 ? { ...book, pages: 1210 } : book);
+console.log(booksAfterUpdate);
+
+// Asynchronous JS Promises
+
+// fetch("https://jsonplaceholder.typicode.com/todos").then(res => res.json()).then(data => console.log(data));
+// console.log('Yoyo');
+
+async function getTodos() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/todos");
+  const data = await res.json();
+  console.log(data.length);
+
+  // return data;
+}
+
+getTodos();
+// const todos = getTodos();
+// console.log(todos);
+
+console.log('yoyo');
