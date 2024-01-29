@@ -69,10 +69,14 @@ function Header() {
 };
 
 function Menu() {
+    const pizzas = pizzaData;
+    // const pizzas = [];
+    const numPizzas = pizzas.length;
+
     return (
         <main className="menu">
             <h2>Our Menu</h2>
-            <Pizza
+            {/* <Pizza
                 name="Pizza Spinaci"
                 ingredients="Tomato, mozarella, spinach, and ricotta cheese"
                 photoName="pizzas/spinaci.jpg"
@@ -83,27 +87,82 @@ function Menu() {
                 ingredients="Tomato, mozarella, spinach, and ricotta cheese"
                 photoName="pizzas/funghi.jpg"
                 price={12}
-            />
+            /> */}
+            {/* {
+                <div>
+                pizzaData.map((pizza) => < Pizza name={pizza.name} photoName={pizza.photoName} />)
+                </div>
+            } */}
+
+            {/* Conditonal Operator && */}
+            {/* {numPizzas > 0 &&
+                <ul className="pizzas">
+                    {pizzas.map((pizza) => <Pizza pizzaObj={pizza} key={pizza.name} />)
+                    }
+                </ul>
+            } */}
+            {/* Ternary Operator && */}
+            {numPizzas > 0 ? (
+                // React Fragment
+                <>
+                    {/* React Frafment with key */}
+                    {/* <React.Fragment key="wrapper"> */}
+                    <p>
+                        Authentic Italian cuisine. 6 creative dishes to choose from. All
+                        from our stone oven, all organic, all delicious.
+                    </p>
+                    <ul className="pizzas">
+                        {pizzas.map((pizza) => <Pizza pizzaObj={pizza} key={pizza.name} />)
+                        }
+                    </ul>
+                    {/* </React.Fragment> */}
+                </>
+            ) : (
+                <p>We're still working on our menu. Please come back later :)</p>
+            )
+            }
         </main>
     );
 }
 
-function Pizza(props) {
+// function Pizza(props) {
+// {pizzaObj} = {...props};
+function Pizza({ pizzaObj }) {
+    // console.log(props);
+    // 
+    // Conditional Rendering with Multiple 
+    // if (props.pizzaObj.soldOut) {
+    // if (pizzaObj.soldOut) {
+    //     return null;
+    // }
+
     return (
-        <div className="pizza">
-            <img src={props.photoName} alt={props.name} />
+        <li className={`pizza ${pizzaObj.soldOut ? 'sold-out' : ''}`}>
+            {/* <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
             <div>
-                <h3>{props.name}</h3>
-                <p>{props.ingredients}</p>
-                <span>{props.price + 3}</span>
+                <h3>{props.pizzaObj.name}</h3>
+                <p>{props.pizzaObj.ingredients}</p>
+                <span>{props.pizzaObj.price + 3}</span>
+            </div> */}
+            <img src={pizzaObj.photoName} alt={pizzaObj.name} />
+            <div>
+                <h3>{pizzaObj.name}</h3>
+                <p>{pizzaObj.ingredients}</p>
+                {/* {pizzaObj.soldOut ? (
+                    <span>SOLD OUT</span>) : (
+                    <span>{pizzaObj.price}</span>
+                )} */}
+                <span>{pizzaObj.soldOut ? "SOLD OUT" : pizzaObj.price}</span>
             </div>
-        </div>
+        </li>
     );
 }
 
 function Footer() {
+    // function Footer(props) {
+    // console.log(props);
     const hour = new Date().getHours();
-    const openHour = 12;
+    const openHour = 1;
     const closeHour = 22;
     const isOpen = openHour <= hour && hour <= closeHour;
     console.log(isOpen);
@@ -116,7 +175,41 @@ function Footer() {
 
     // return React.createElement('footer', null, `This is Footer`);
     return (
-        <footer className="footer">{new Date().toLocaleTimeString()}. We're currently open</footer>
+        <footer className="footer">
+            {/* {new Date().toLocaleTimeString()}. We're currently open */}
+            {/* {isOpen && <p>We're currently open</p>} */}
+            {/* {<p>hi</p>} {true} {[<div>1</div>, <div>2</div>, <div>3</div>]} */}
+            {/* {isOpen &&
+                <div className="order">
+                    <p> We're open until {closeHour}:00. Come visit us or order online.</p>
+                    <button className="btn">Order</button>
+                </div>
+            } */}
+            {/* Ternary Operator && */}
+            {isOpen ? (
+                // <div className="order">
+                //     <p> We're open until {closeHour}:00. Come visit us or order online.</p>
+                //     <button className="btn">Order</button>
+                // </div>
+                <Order closeHour={closeHour} openHour={openHour} />
+            ) : (
+                <p>
+                    We're happy to welcome you between {openHour}:00 and {closeHour}:00.
+                </p>
+            )}
+        </footer>
+    );
+}
+
+// function Order(props) {
+function Order({ closeHour, openHour }) {
+
+    return (
+        <div className="order">
+            {/* <p> We're open until {props.closeHour}:00. Come visit us or order online.</p> */}
+            <p> We're open from {openHour}:00 to {closeHour}:00. Come visit us or order online.</p>
+            <button className="btn">Order</button>
+        </div>
     );
 }
 
