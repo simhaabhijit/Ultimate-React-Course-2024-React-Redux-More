@@ -8,6 +8,7 @@
 .container {
   width: 250px;
   margin: auto 50%;
+  text-align: center;
 }
 
 .counter {
